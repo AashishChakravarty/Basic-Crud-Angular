@@ -1,0 +1,58 @@
+<div class="position-relative overflow-hidden p-3 p-md-5 bg-light">
+  <div class="container">
+    <div class="col-md-5 mx-auto text-center mb-5">
+      <h1 class="display-4 font-weight-normal">Phone Directory</h1>
+    </div>
+
+    <div class="product-device product-device-2 shadow-sm d-none d-md-block p-3">
+      <a class="btn btn-outline-success" href="#" (click)="getForm()" [hidden]="buttonHide">Add Subscriber</a>
+      <form name="form" class="col-md-6" [hidden]="!showForm" (ngSubmit)="f.form.valid && addSubcriber()" #f="ngForm"
+        novalidate>
+        <div class="form-group">
+          <label for="nameInput">Name</label>
+          <input type="text" class="form-control" name="name" id="nameInput" [(ngModel)]="addModel.name"
+            placeholder="Enter Full Name" #name="ngModel"
+            [ngClass]="{ 'is-invalid form-control-danger': f.submitted && name.invalid }" required />
+          <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
+            <div *ngIf="name.errors.required" class="pull-left">* Name is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="contactInput">Contact Number</label>
+          <input type="text" class="form-control" name="contact" id="contactInput" [(ngModel)]="addModel.contact"
+            placeholder="Enter Contact" #contact="ngModel"
+            [ngClass]="{ 'is-invalid form-control-danger': f.submitted && contact.invalid }" pattern="^([6789]\d{9})?$"
+            required />
+          <div *ngIf="f.submitted && contact.invalid" class="invalid-feedback">
+            <div *ngIf="contact.errors.required" class="pull-left">* Contact is required</div>
+            <div *ngIf="contact.errors.pattern" class="pull-left">Contact is not valid ( Enter only 10 Digit Contact Number)</div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+        <button type="button" class="btn btn-secondary" (click)="hideForm()">Cancel</button>
+      </form>
+    </div>
+    <div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let subcriber of phoneSubscribers; let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ subcriber.name }}</td>
+            <td>{{ subcriber.contact }}</td>
+            <td>
+              <button type="button" class="btn btn-danger" (click)="deleteSubscriber(i)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
